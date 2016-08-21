@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+	    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+		<title>Main</title>
+
+		<style>
+                
+                body	{	margin: 20px;	padding: 0px;	background-color: #FFF;	}
+                
+		</style>
+
+        	<!-- ================================================== -->
+            <!--		JAVASCRIPT									-->
+            <!-- ================================================== -->
+            
+            <script type="text/javascript" src="js/jQuery.js"></script>
+            <script type="text/javascript" src="js/Capabilities.js"></script>
+            <script type="text/javascript" src="js/CubeViewer.js"></script>
+            <script type="text/javascript" charset="utf-8">
+				
+				// ----------
+				// PROPERTIES
+				// ----------
+				var _viewer1	= null;
+				var _viewer2	= null;
+				
+				var _jViewer1	= null;
+				var _jViewer2	= null;
+				
+				var _currentViewer	= null;
+				var _jCurrentViewer	= null;
+				
+				
+				// ------------
+				function Main()
+				{
+					var stepValue = 1;
+					
+					// Create the 1st viewer.
+					var viewerData1 = new CubeViewerData();
+					viewerData1._imagePaths		= ['images/interior360/cube/glass_roof/1.jpg', 'images/interior360/cube/glass_roof/2.jpg', 'images/interior360/cube/glass_roof/3.jpg', 'images/interior360/cube/glass_roof/4.jpg', 'images/interior360/cube/glass_roof/5.jpg', 'images/interior360/cube/glass_roof/6.jpg'];
+					viewerData1._rotationAmounts = { '_x': stepValue, '_y': stepValue, '_z': 0};
+					viewerData1._rotationClamping = { '_x': { '_min': -90, '_max': 90 }, '_y': null, '_z': null };
+					viewerData1._initialRotation	= { '_x': -15, '_y': 41, '_z': 0 };
+					viewerData1._mouseThresholds = { '_x': 0, '_y': 0, '_z': 0 };
+
+					_viewer1 = new CubeViewer(viewerData1);
+					_viewer1._previousMouseLoc = {'_x': 0, '_y': 0};
+					_jViewer1 = _viewer1.Get_jContainer();
+					
+					
+					
+					// Create the 2nd viewer.
+					var viewerData2 = new CubeViewerData();
+					viewerData2._imagePaths		= ['images/interior360/cube/convertible/1.jpg', 'images/interior360/cube/convertible/2.jpg', 'images/interior360/cube/convertible/3.jpg', 'images/interior360/cube/convertible/4.jpg', 'images/interior360/cube/convertible/5.jpg', 'images/interior360/cube/convertible/6.jpg'];
+					viewerData2._rotationAmounts = { '_x': stepValue, '_y': stepValue, '_z': 0};
+					viewerData2._rotationClamping = { '_x': { '_min': -90, '_max': 90 }, '_y': null, '_z': null };
+					viewerData2._initialRotation	= { '_x': -15, '_y': 41, '_z': 0 };
+					viewerData2._mouseThresholds = { '_x': 0, '_y': 0, '_z': 0 };
+
+					_viewer2 = new CubeViewer(viewerData2);
+					_viewer2._previousMouseLoc = {'_x': 0, '_y': 0};
+					_jViewer2 = _viewer2.Get_jContainer();
+
+					
+					// Add the viewers to the DOM.
+					jQuery('#Content').append(_jViewer1);
+					jQuery('#Content').append(_jViewer2);
+					
+					
+					// Initialize viewer visibilities
+					_Handle_Button1_ClickEvent();
+					
+					
+					// Bind the option buttons.
+					var jOptionButton1 = jQuery('#OptionButton1');
+					jOptionButton1.bind('click', _Handle_Button1_ClickEvent);
+					
+					var jOptionButton2 = jQuery('#OptionButton2');
+					jOptionButton2.bind('click', _Handle_Button2_ClickEvent);
+				}
+				
+				
+				// ------------------------------------------------------
+				function _Set_CurrentViewer_Data(pNewViewer, pjNewViewer)
+				{
+					var currentRotation;
+					
+					if (_currentViewer)
+						currentRotation = _currentViewer._currentRotation;
+					
+					_currentViewer	= pNewViewer;
+					_jCurrentViewer	= pjNewViewer;
+					
+					// Update rotation if available.
+					if (currentRotation)
+						_currentViewer.Set_Cube_Rotation(currentRotation);
+					
+					_jCurrentViewer.css('display',	'');
+				}
+				
+				
+				// ----------------------------------------
+				function _Handle_Button1_ClickEvent(pEvent)
+				{
+					_Set_CurrentViewer_Data(_viewer1, _jViewer1);
+					
+					_jViewer2.css('display',	'none');
+				}
+				
+				
+				// ----------------------------------------
+				function _Handle_Button2_ClickEvent(pEvent)
+				{
+					_Set_CurrentViewer_Data(_viewer2, _jViewer2);
+					
+					_jViewer1.css('display',	'none');
+				}
+				
+				
+				jQuery(document).ready(jQuery.proxy(Main, document));
+				
+				
+            </script>
+	</head>
+	<body>
+		<div id="Container" style="position: absolute; width: 480px; height: 320px; background-color: #FFF; overflow: hidden;">
+			<div id="Content" style="position: absolute; left: 0px; top: 0px; width: 480px; height: 320px;">
+			</div>
+		</div>
+		
+        <div id="OptionButton1" style="position: absolute; left: 50px; top: 350px; width: 100px; height: 25px; background-color: #FF0000; text-align: center;">Glass Roof</div>
+        <div id="OptionButton2" style="position: absolute; left: 175px; top: 350px; width: 100px; height: 25px; background-color: #FF0000; text-align: center;">Convertible</div>
+
+	</body>
+</html>
+

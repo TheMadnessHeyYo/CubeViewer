@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+	    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+		<title>Main</title>
+
+		<style>
+                
+                body	{	margin: 20px;	padding: 0px;	background-color: #FFF;	}
+				* 	{	-webkit-touch-callout: none; -webkit-user-select:none; -webkit-text-size-adjust:none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0,0,0,0);}
+		</style>
+
+        	<!-- ================================================== -->
+            <!--		JAVASCRIPT									-->
+            <!-- ================================================== -->
+            
+            <script type="text/javascript" src="js/jQuery.js"></script>
+            <script type="text/javascript" src="js/Capabilities.js"></script>
+            <script type="text/javascript" src="js/ImageSequence-LoadOnDemand.js"></script>
+            <script type="text/javascript" charset="utf-8">
+			
+				// ----------
+				// PROPERTIES
+				// ----------
+				var _viewer1	= null;
+				var _viewer2	= null;
+				
+				var _jViewer1	= null;
+				var _jViewer2	= null;
+				
+				var _currentViewer	= null;
+				var _jCurrentViewer	= null;
+				
+				
+				// ------------
+				function Main()
+				{
+					// Create the 1st viewer.
+					var viewerData1 = new ImageSequenceData();
+					viewerData1._imagePaths =
+						[
+							'images/interior360/sequence/glass_roof/0.jpg',
+							'images/interior360/sequence/glass_roof/1.jpg',
+							'images/interior360/sequence/glass_roof/2.jpg',
+							'images/interior360/sequence/glass_roof/3.jpg',
+							'images/interior360/sequence/glass_roof/4.jpg',
+							'images/interior360/sequence/glass_roof/5.jpg',
+							'images/interior360/sequence/glass_roof/6.jpg',
+							'images/interior360/sequence/glass_roof/7.jpg',
+							'images/interior360/sequence/glass_roof/8.jpg',
+							'images/interior360/sequence/glass_roof/9.jpg',
+							'images/interior360/sequence/glass_roof/10.jpg',
+							'images/interior360/sequence/glass_roof/11.jpg',
+							'images/interior360/sequence/glass_roof/12.jpg',
+							'images/interior360/sequence/glass_roof/13.jpg',
+							'images/interior360/sequence/glass_roof/14.jpg',
+							'images/interior360/sequence/glass_roof/15.jpg',
+							'images/interior360/sequence/glass_roof/16.jpg',
+							'images/interior360/sequence/glass_roof/17.jpg',
+							'images/interior360/sequence/glass_roof/18.jpg',
+							'images/interior360/sequence/glass_roof/19.jpg',
+							'images/interior360/sequence/glass_roof/20.jpg',
+							'images/interior360/sequence/glass_roof/21.jpg',
+							'images/interior360/sequence/glass_roof/22.jpg',
+							'images/interior360/sequence/glass_roof/23.jpg',
+							'images/interior360/sequence/glass_roof/24.jpg',
+							'images/interior360/sequence/glass_roof/25.jpg',
+							'images/interior360/sequence/glass_roof/26.jpg',
+							'images/interior360/sequence/glass_roof/27.jpg',
+							'images/interior360/sequence/glass_roof/28.jpg',
+							'images/interior360/sequence/glass_roof/29.jpg',
+							'images/interior360/sequence/glass_roof/30.jpg',
+							'images/interior360/sequence/glass_roof/31.jpg',
+							'images/interior360/sequence/glass_roof/32.jpg',
+							'images/interior360/sequence/glass_roof/33.jpg',
+							'images/interior360/sequence/glass_roof/34.jpg'
+						];
+						
+					_viewer1 = new ImageSequence(viewerData1);
+					_jViewer1 = _viewer1.Get_jContainer();
+					
+					
+					
+					// Create the 2nd viewer.
+					var viewerData2 = new ImageSequenceData();
+					viewerData2._imagePaths =
+						[
+							'images/interior360/sequence/convertible/0.jpg',
+							'images/interior360/sequence/convertible/1.jpg',
+							'images/interior360/sequence/convertible/2.jpg',
+							'images/interior360/sequence/convertible/3.jpg',
+							'images/interior360/sequence/convertible/4.jpg',
+							'images/interior360/sequence/convertible/5.jpg',
+							'images/interior360/sequence/convertible/6.jpg',
+							'images/interior360/sequence/convertible/7.jpg',
+							'images/interior360/sequence/convertible/8.jpg',
+							'images/interior360/sequence/convertible/9.jpg',
+							'images/interior360/sequence/convertible/10.jpg',
+							'images/interior360/sequence/convertible/11.jpg',
+							'images/interior360/sequence/convertible/12.jpg',
+							'images/interior360/sequence/convertible/13.jpg',
+							'images/interior360/sequence/convertible/14.jpg',
+							'images/interior360/sequence/convertible/15.jpg',
+							'images/interior360/sequence/convertible/16.jpg',
+							'images/interior360/sequence/convertible/17.jpg',
+							'images/interior360/sequence/convertible/18.jpg',
+							'images/interior360/sequence/convertible/19.jpg',
+							'images/interior360/sequence/convertible/20.jpg',
+							'images/interior360/sequence/convertible/21.jpg',
+							'images/interior360/sequence/convertible/22.jpg',
+							'images/interior360/sequence/convertible/23.jpg',
+							'images/interior360/sequence/convertible/24.jpg',
+							'images/interior360/sequence/convertible/25.jpg',
+							'images/interior360/sequence/convertible/26.jpg',
+							'images/interior360/sequence/convertible/27.jpg',
+							'images/interior360/sequence/convertible/28.jpg',
+							'images/interior360/sequence/convertible/29.jpg',
+							'images/interior360/sequence/convertible/30.jpg',
+							'images/interior360/sequence/convertible/31.jpg',
+							'images/interior360/sequence/convertible/32.jpg',
+							'images/interior360/sequence/convertible/33.jpg',
+							'images/interior360/sequence/convertible/34.jpg'
+						];
+							
+					_viewer2 = new ImageSequence(viewerData2);
+					_jViewer2 = _viewer2.Get_jContainer();
+					
+					
+					// Add the viewers to the DOM.
+					jQuery('#Content').append(_jViewer1);
+					jQuery('#Content').append(_jViewer2);
+					
+					
+					// Initialize viewer visibilities
+					_Handle_Button1_ClickEvent();
+					
+					
+					// Bind the option buttons.
+					var jOptionButton1 = jQuery('#OptionButton1');
+					jOptionButton1.bind('click', _Handle_Button1_ClickEvent);
+					
+					var jOptionButton2 = jQuery('#OptionButton2');
+					jOptionButton2.bind('click', _Handle_Button2_ClickEvent);
+				}
+				
+				
+				// ------------------------------------------------------
+				function _Set_CurrentViewer_Data(pNewViewer, pjNewViewer)
+				{
+					var currentRotation;
+					
+					if (_currentViewer)
+						currentRotation = _currentViewer._step;
+					
+					_currentViewer	= pNewViewer;
+					_jCurrentViewer	= pjNewViewer;
+					
+					// Update rotation if available.
+					if (currentRotation)
+						_currentViewer.Set_Current_Frame(currentRotation);
+					
+					_jCurrentViewer.css('display',	'');
+				}
+				
+				
+				// ----------------------------------------
+				function _Handle_Button1_ClickEvent(pEvent)
+				{
+					_Set_CurrentViewer_Data(_viewer1, _jViewer1);
+					
+					_jViewer2.css('display',	'none');
+				}
+				
+				
+				// ----------------------------------------
+				function _Handle_Button2_ClickEvent(pEvent)
+				{
+					_Set_CurrentViewer_Data(_viewer2, _jViewer2);
+					
+					_jViewer1.css('display',	'none');
+				}
+				
+				
+				
+			
+				jQuery(document).ready(jQuery.proxy(Main, document));
+				
+				
+            </script>
+	</head>
+	<body>
+		<div id="Container" style="position: absolute; width: 480px; height: 320px; background-color: #FFF; overflow: hidden;">
+			<div id="Content" style="position: absolute; left: 0px; top: 0px; width: 480px; height: 320px;">
+			</div>
+		</div>
+		
+        <div id="OptionButton1" style="position: absolute; left: 50px; top: 350px; width: 100px; height: 25px; background-color: #FF0000; text-align: center;">Glass Roof</div>
+        <div id="OptionButton2" style="position: absolute; left: 175px; top: 350px; width: 100px; height: 25px; background-color: #FF0000; text-align: center;">Convertible</div>
+
+	</body>
+</html>
+
